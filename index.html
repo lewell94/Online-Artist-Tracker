@@ -1,0 +1,355 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Online Artist Tracker</title>
+<link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+<style>
+body {font-family:Roboto;margin:auto;background:#eee;}
+.container {width:100%;display:inline-block;background:#444;}
+.header {width:960px;margin:auto;}
+h1 {font-size:36px;color:#eee;}
+h3 {position:fixed;top:170px;}
+a {color:black;text-decoration:none;}
+a:visited {color:black;text-decoration:none;}
+.text {margin:2px;color:#eee;}
+
+/*FORM*/
+#searchform {width:960px;height:45px;padding:5px 5px 5px 1px;}
+
+/*DROP DOWN*/
+select {font-size:14px;border:1px grey solid;border-radius:5px;float:left;margin-top:2px;width:195px;height:39px;background:white;}
+
+/*TEXT BOXES*/
+.textinput {margin-top:2px;height:35px;font-size:24px;border:1px grey solid;border-radius:5px;width:555px;margin-left:5px;}
+.textinputone {margin-top:2px;height:35px;font-size:24px;border:1px grey solid;border-radius:5px;width:272px;margin-left:5px;}
+.first {float:left;}
+.second {float:left;margin-top:2px;height:35px;font-size:24px;border:1px grey solid;border-radius:5px;width:272px;margin-left:5px;}
+#secondtext {display:none;}
+
+/*SUBMIT BUTTON*/
+.submitbutton {font-family:Roboto;font-size:16px;font-color:grey;background-color:white;border:1px grey solid;border-radius:5px;float:left;width:93px;margin-left:5px;margin-top:2px;height:39px;}
+
+/*RESET BUTTON*/
+.reset {color:#000000;text-decoration:none;border:1px solid grey;border-radius:5px;width:100px;height:23px;float:left;width:95px;margin-left:5px;background-color:white;margin-top:2px;height:37px;}
+.reset p {position:relative;top:-8px;left:26px;}
+
+/*TABLES*/
+table {background:#fff;}
+td {text-align:center;}
+tr:nth-child(odd){background-color:#ccc;}
+th {background-color:#444;color:#ddd;}
+.hide {display:none;}
+
+/*SPECIFIC TABLES*/
+#scUsers {width:900px;position:absolute;left:50%;margin-left:-450px;top:220px;}
+#scTracks {width:900px;position:absolute;left:50%;margin-left:-450px;top:220px;}
+#lfArtist {width:900px;position:absolute;left:50%;margin-left:-450px;top:220px;}
+#lfAlbum {width:900px;position:absolute;left:50%;margin-left:-450px;top:220px;}
+#lfTrack {width:900px;position:absolute;left:50%;margin-left:-450px;top:220px;}
+#lfTopAlbums {width:900px;position:absolute;left:50%;margin-left:-450px;top:220px;}
+#lfTopTracks {width:900px;position:absolute;left:50%;margin-left:-450px;top:220px;}
+#jamTest {width:900px;position:absolute;left:50%;margin-left:-450px;top:220px;}
+</style>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+</head>
+
+<body>
+<div class="container">
+<div class="header">
+<h1>Online Artist Tracker</h1>
+<p class="text">This app is designed for music PR/management companies to keep a track of how their artists are doing on various music services. Simply select the service you want to search through, enter your search terms and hit submit.</p>
+<form id="searchform">
+<select name="service">
+  <option value="none" >Select a service</option>
+  <option value="scUser" class="artist">Soundcloud User</option>
+  <option value="scTrack" class="track">Soundcloud Track</option>
+  <option value="lfArtist" class="artist">Last.fm Artist</option>
+  <option value="lfAlbum" class="artist drop"|>Last.fm Album</option>
+  <option value="lfTrack" class="artist drop">Last.fm Track</option>
+  <option value="lfTopAlbums" class="artist">Last.fm Top Albums</option>
+  <option value="lfTopTracks" class="artist">Last.fm Top Tracks</option>
+  <option value="jamTest" class="artist">This Is My Jam Artist</option>
+</select>
+<input type="text" name="search" placeholder="search" class="textinput first" />
+<input type="text" name="second" placeholder="track/album" class="textinput second" id="secondtext" />
+<input type="submit" value="Submit" id="submitbuttonid" class="submitbutton" />
+<a href="S12775117.html" id="resetbutton" class="reset"><p>Reset</p></a>
+</form>
+<h3 id="noService" class="hide">You need to select a service!</h3>
+</div>
+</div>
+
+<table id="scUsers" class="hide">
+  <tr>
+    <th>User</th>
+    <th>Country</th>
+    <th>City</th>
+    <th>Tracks</th>
+    <th>Playlists</th>
+    <th>Followers</th>
+  </tr>
+</table>
+
+<table id="scTracks" class="hide">
+  <tr>
+    <th>User</th>
+    <th>Track</th>
+    <th>Genre</th>
+    <th>BPM</th>
+    <th>Plays</th>
+    <th>Downloads</th>
+    <th>Favourties</th>
+  </tr>
+</table>
+
+<table id="lfArtist" class="hide">
+  <tr>
+    <th>Artist</th>
+    <th>Listeners</th>
+    <th>Plays</th>
+  </tr>
+</table>
+
+<table id="lfAlbum" class="hide">
+  <tr>
+    <th>Artist</th>
+    <th>Title</th>
+    <th>Release Date</th>
+    <th>Listeners</th>
+    <th>Plays</th>
+  </tr>
+</table>
+
+<table id="lfTrack" class="hide">
+  <tr>
+    <th>Artist</th>
+    <th>Name</th>
+    <th>Listeners</th>
+    <th>Plays</th>
+  </tr>
+</table>
+
+<table id="lfTopAlbums" class="hide">
+  <tr>
+    <th>Name</th>
+    <th>Playcount</th>
+  </tr>
+</table>
+
+<table id="lfTopTracks" class="hide">
+  <tr>
+    <th>Name</th>
+    <th>Listeners</th>
+    <th>Plays</th>
+  </tr>
+</table>
+
+<table id="jamTest" class="hide">
+  <tr>
+    <th>Title</th>
+    <th>User</th>
+    <th>Plays</th>
+    <th>Rejams</th>
+    <th>Likes</th>
+    <th>Comments</th>
+  </tr>
+</table>
+
+<script>
+  
+$(window).scroll(function() {
+	if($(window).scrollTop() > 194) {
+		$(".top").addClass("hide");
+	} else {
+		$(".top").removeClass("hide");
+	};
+});
+
+$(window).scroll(function() {
+	if($(window).scrollTop() > 165) {
+		$(".bottom").addClass("hide");
+	} else {
+		$(".bottom").removeClass("hide");
+	};
+});
+
+$("select").change(function(){
+	if ($(".drop").is(":selected"))
+	$("#secondtext").show();
+});
+
+$("select").change(function(){
+if ($(".drop").is(":selected"))
+	$(".first").removeClass("textinput");
+});
+
+$("select").change(function(){
+if ($(".drop").is(":selected"))
+	$(".first").addClass("textinputone");
+});
+
+$("select").change(function(){
+	if ($(".artist").is(":selected"))
+	$(".first").attr("placeholder", "artist");
+});
+
+$("select").change(function(){
+	if ($(".track").is(":selected"))
+	$(".first").attr("placeholder", "track");
+});
+
+$(document).ready(function(){
+
+function scUsers() {
+	$("#scUsers").removeClass("hide");
+	$.get('https://api.soundcloud.com/users.json?&client_id=41bc73ed5b1f3b5b6dcb2bbaadd3764d&q='+new_search, function(users) {
+		console.log(users)
+	  $(users).each(function(index, users){
+		  $('#scUsers').append($('<tr class="row"></tr>').html('<td><a href="'+users.permalink_url+'">'+users.username+'</a></td><td>'+users.country+'</td><td>'+users.city+'</td><td>'+users.track_count+'</td><td>'+users.playlist_count+'</td><td>'+users.followers_count+'</td>>'));
+          });
+	});
+	};
+	
+function scTracks() {
+	$("#scTracks").removeClass("hide");
+	$.get('https://api.soundcloud.com/tracks.json?&client_id=41bc73ed5b1f3b5b6dcb2bbaadd3764d&q='+new_search, function(tracks) {
+		console.log(tracks)
+	  $(tracks).each(function(index, tracks){
+		  $('#scTracks').append($('<tr class="row"></tr>').html('<td><a href="'+tracks.user.permalink_url+'">'+tracks.user.username+'</a></td><td><a href="'+tracks.permalink_url+'">'+tracks.title+'</a></td><td>'+tracks.genre+'</td><td>'+tracks.bpm+'</td><td>'+tracks.playback_count+'</td><td>'+tracks.download_count+'</td><td>'+tracks.favoritings_count+'</td>'));
+          });
+	});
+};
+
+function lfArtist() {
+	$("#lfArtist").removeClass("hide");
+	$.get("http://ws.audioscrobbler.com/2.0/?method=artist.getInfo&artist="+new_search+"&api_key=2fc90f462963de3f1aa5889f105418ec&format=json", function(data) {
+		console.log(data)
+	  $(data.artist).each(function(){
+		  $('#lfArtist').append($('<tr class="row"></tr>').html('<td><a href="'+this.url+'">'+this.name+'</a></td><td>'+this.stats.listeners+'</td><td>'+this.stats.playcount+'</td>'));
+          });
+	});
+}
+
+function lfAlbum() {
+	$("#lfAlbum").removeClass("hide");
+	$.get("http://ws.audioscrobbler.com/2.0/?method=album.getInfo&api_key=2fc90f462963de3f1aa5889f105418ec&artist="+new_search+"&album="+new_second+"&format=json", function(data) {
+		console.log(data)
+	  $(data.album).each(function(){
+		  $('#lfAlbum').append($('<tr class="row"></tr>').html('<td>'+this.artist+'</td><td><a href="'+this.url+'">'+this.name+'</a></td><td>'+this.releasedate+'<td>'+this.listeners+'</td><td>'+this.playcount+'</td>'));
+          });
+	});
+}
+
+function lfTrack() {
+	$("#lfTrack").removeClass("hide");
+	$.get("http://ws.audioscrobbler.com/2.0/?method=track.getInfo&api_key=2fc90f462963de3f1aa5889f105418ec&artist="+new_search+"&track="+new_second+"&format=json", function(data) {
+		console.log(data)
+	  $(data.track).each(function(){
+		  $('#lfTrack').append($('<tr class="row"></tr>').html('<td><a href="'+this.artist.url+'">'+this.artist.name+'</a></td><td><a href="'+this.url+'">'+this.name+'</a></td><td>'+this.listeners+'</td><td>'+this.playcount+'</td>'));
+          });
+	});
+}
+
+function lfTopAlbums() {
+	$("#lfTopAlbums").removeClass("hide");
+	$.get("http://ws.audioscrobbler.com/2.0/?method=artist.getTopAlbums&artist="+new_search+"&api_key=2fc90f462963de3f1aa5889f105418ec&format=json", function(data) {
+		console.log(data)
+		console.log(data);
+	  $(data.topalbums.album).each(function(){
+		  $('#lfTopAlbums').append($('<tr class="row"></tr>').html('<td><a href="'+this.url+'">'+this.name+'</a></td><td>'+this.playcount+'</td><td>'));
+          });
+	});
+}
+
+function lfTopTracks() {
+	$("#lfTopTracks").removeClass("hide");
+	$.get("http://ws.audioscrobbler.com/2.0/?method=artist.getTopTracks&artist="+new_search+"&api_key=2fc90f462963de3f1aa5889f105418ec&format=json", function(data) {
+		console.log(data)
+	  $(data.toptracks.track).each(function(){
+		  $('#lfTopTracks').append($('<tr class="row"></tr>').html('<td><a href="'+this.url+'">'+this.name+'</a></td><td>'+this.playcount+'</td><td>'+this.listeners+'</td>'));
+          });
+	});
+}
+
+function jamTest() {
+	$("#jamTest").removeClass("hide");
+	$.get("http://api.thisismyjam.com/1/search/jam.json?by=artist&q="+new_search+"", function(data) {
+		console.log(data)
+	  $(data.jams).each(function(){
+		  $('#jamTest').append($('<tr class="row"></tr>').html('<td><a href="'+this.url+'">'+this.title+'</a></td><td>'+this.from+'</td><td>'+this.playCount+'</td><td>'+this.rejamsCount+'</td><td>'+this.likesCount+'</td><td>'+this.commentsCount+'</td>'));
+	  });
+	});
+}
+
+function noService() {
+	$("#noService").removeClass("hide");
+}
+
+// Add search term to URL function
+  $('#searchform').submit(function() {
+   
+   // Set search term variable based on input box
+    var search_term = $('#searchform input:text[name="search"]').val();
+	 var second_term = $('#searchform input:text[name="second"]').val();
+	 var service = $('#searchform input:value[name="service"]').val();
+    // Append search term to URL under the name 'search' (this can be changed - as long as it's changed later)
+    window.location.href = "S12775117.html?search=" + search_term +'&service='+service +'&second='+second_term;
+    return false;
+  });
+// End function
+
+// Get Variable from URL function
+  function getURLParameter(name) {
+        return decodeURI(
+          (RegExp(name + '=' + '(.+?)(&|$)').exec(location.search) || [, null])[1]
+        );
+      };
+  // Set new variable based on URL Parameter of name 'search' (this needs to match the name in the first function)
+      new_search = getURLParameter('search');
+	  new_second = getURLParameter('second');
+	  new_service = getURLParameter('service');
+
+  // The Get Variable from URL function will work regardless of the search box - this means you can copy and paste a URL that has the '?search=' parameter and it will pass that to the variable.
+  
+	if (new_service == 'scUser') { 
+		scUsers();
+	};
+	
+	if (new_service == 'scTrack') { 
+		scTracks();
+	};
+	
+	if (new_service == 'lfArtist') { 
+		lfArtist();
+	};
+	
+	if (new_service == 'lfAlbum') { 
+		lfAlbum();
+	};
+	
+	if (new_service == 'lfTrack') { 
+		lfTrack();
+	};
+	
+	if (new_service == 'lfTopAlbums') { 
+		lfTopAlbums();
+	};
+	
+	if (new_service == 'lfTopTracks') { 
+		lfTopTracks();
+	};
+	
+	if (new_service == 'jamTest') { 
+		jamTest();
+	};
+	
+	if (new_service == 'none') {
+		noService();
+	};
+  
+});
+
+</script>
+</body>
+</html>
