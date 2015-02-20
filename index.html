@@ -74,7 +74,7 @@ th {background-color:#444;color:#ddd;}
 <input type="text" name="search" placeholder="search" class="textinput first" />
 <input type="text" name="second" placeholder="track/album" class="textinput second" id="secondtext" />
 <input type="submit" value="Submit" id="submitbuttonid" class="submitbutton" />
-<a href="S12775117.html" id="resetbutton" class="reset"><p>Reset</p></a>
+<a href="index.html" id="resetbutton" class="reset"><p>Reset</p></a>
 </form>
 <h3 id="noService" class="hide">You need to select a service!</h3>
 </div>
@@ -286,31 +286,24 @@ function noService() {
 	$("#noService").removeClass("hide");
 }
 
-// Add search term to URL function
   $('#searchform').submit(function() {
    
-   // Set search term variable based on input box
     var search_term = $('#searchform input:text[name="search"]').val();
 	 var second_term = $('#searchform input:text[name="second"]').val();
 	 var service = $('#searchform input:value[name="service"]').val();
-    // Append search term to URL under the name 'search' (this can be changed - as long as it's changed later)
     window.location.href = "S12775117.html?search=" + search_term +'&service='+service +'&second='+second_term;
     return false;
   });
-// End function
 
-// Get Variable from URL function
   function getURLParameter(name) {
         return decodeURI(
           (RegExp(name + '=' + '(.+?)(&|$)').exec(location.search) || [, null])[1]
         );
       };
-  // Set new variable based on URL Parameter of name 'search' (this needs to match the name in the first function)
       new_search = getURLParameter('search');
 	  new_second = getURLParameter('second');
 	  new_service = getURLParameter('service');
 
-  // The Get Variable from URL function will work regardless of the search box - this means you can copy and paste a URL that has the '?search=' parameter and it will pass that to the variable.
   
 	if (new_service == 'scUser') { 
 		scUsers();
